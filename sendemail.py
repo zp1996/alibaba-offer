@@ -7,9 +7,7 @@ from config import options
 def getHeader(s):
     return Header(s, 'utf-8')
 
-receivers = [ options.get('receivers') ]
-
-def sendemail(receivers, status):
+def send(status):
     # 发送邮箱
     sender = 'lsgogroup@gmail.com'
     # 页面主体信息
@@ -27,9 +25,7 @@ def sendemail(receivers, status):
         server.ehlo()
         server.starttls()
         server.login(sender, 'Lsgogroup')
-        server.sendmail(sender, receivers, msg.as_string())
+        server.sendmail(sender, [ options['receivers'] ], msg.as_string())
         print "邮件发送成功"
     except smtplib.SMTPException as err:
         print err
-
-sendemail(receivers, '已入职')
